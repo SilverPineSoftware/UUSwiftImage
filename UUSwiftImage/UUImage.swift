@@ -22,17 +22,17 @@ public extension UUImage
 	// MARK: - Resizing functions
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	func uuCropToSize(targetSize : CGSize) -> UUImage
+	func uuCropToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
 	{
 		var thumbnailRect : CGRect = .zero
 		thumbnailRect.origin = CGPoint(x: 0, y: 0)
 		thumbnailRect.size = CGSize(width: self.size.width, height: self.size.height)
 		
-		return self.uuPlatformDraw(targetSize : targetSize, thumbnailRect : thumbnailRect)
+		return self.uuPlatformDraw(targetSize : targetSize, thumbnailRect : thumbnailRect, scale: useScreenScale ? UUImage.uuScreenScale() : 1.0)
 	}
 	
 	
-	func uuScaleToSize(targetSize : CGSize) -> UUImage
+	func uuScaleToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
 	{
 		let imageSize = self.size
 		let width : CGFloat = imageSize.width
@@ -79,10 +79,10 @@ public extension UUImage
 		thumbnailRect.size.width = scaledWidth
 		thumbnailRect.size.height = scaledHeight
 		
-		return self.uuPlatformDraw(targetSize : targetSize, thumbnailRect : thumbnailRect)
+		return self.uuPlatformDraw(targetSize : targetSize, thumbnailRect : thumbnailRect, scale: useScreenScale ? UUImage.uuScreenScale() : 1.0)
 	}
 	
-	func uuScaleAndCropToSize(targetSize : CGSize) -> UUImage
+	func uuScaleAndCropToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
 	{
 		let sourceImage = self
 		let imageSize = sourceImage.size
@@ -121,7 +121,7 @@ public extension UUImage
 		thumbnailRect.origin = thumbnailPoint
 		thumbnailRect.size = CGSize(width: scaledWidth, height: scaledHeight)
 		
-		return self.uuPlatformDraw(targetSize: targetSize, thumbnailRect : thumbnailRect)
+		return self.uuPlatformDraw(targetSize: targetSize, thumbnailRect : thumbnailRect, scale: useScreenScale ? UUImage.uuScreenScale() : 1.0)
 	}
 	
 	
@@ -221,9 +221,9 @@ public extension UUImage
 		return self.jpegData(compressionQuality: compressionQuality)
 	}
 
-	private func uuPlatformDraw(targetSize : CGSize, thumbnailRect : CGRect) -> UUImage
+	private func uuPlatformDraw(targetSize : CGSize, thumbnailRect : CGRect, scale : CGFloat = 1.0) -> UUImage
 	{
-		UIGraphicsBeginImageContextWithOptions(targetSize, false, UUImage.uuScreenScale())
+		UIGraphicsBeginImageContextWithOptions(targetSize, false, scale)
 
 		self.draw(in: thumbnailRect)
 		
@@ -281,7 +281,7 @@ public extension UUImage
 		return nil
 	}
 	
-	private func uuPlatformDraw(targetSize : CGSize, thumbnailRect : CGRect) -> UUImage
+	private func uuPlatformDraw(targetSize : CGSize, thumbnailRect : CGRect, scale : CGFloat = 1.0) -> UUImage
 	{
 		guard let representation = self.bestRepresentation(for: thumbnailRect, context: nil, hints: nil) else {
 			return self
