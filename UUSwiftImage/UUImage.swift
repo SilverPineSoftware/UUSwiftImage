@@ -400,9 +400,41 @@ public extension UIImage {
 		return nil
 	}
 
+	func uuMakeMaskedImage(mask:(UIImage))->UIImage? {
+
+		if let imageReference = self.cgImage,
+		   let maskReference = mask.cgImage,
+		   let maskDataProvider = maskReference.dataProvider {
+
+			if let imageMask = CGImage(maskWidth: maskReference.width,
+									   height: maskReference.height,
+									   bitsPerComponent: maskReference.bitsPerComponent,
+									   bitsPerPixel: maskReference.bitsPerPixel,
+									   bytesPerRow: maskReference.bytesPerRow,
+									   provider: maskDataProvider, decode: nil, shouldInterpolate: true)
+			{
+				let maskedReference = imageReference.masking(imageMask)
+				let maskedImage = UIImage(cgImage:maskedReference!)
+				return maskedImage
+			}
+		}
+
+		return nil
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// MARK: - Animated GIF support
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	static func uuGIFImage(named : String) -> UIImage? {
+		if let filePath = Bundle.main.path(forResource: named, ofType: "gif"),
+			let data = try? Data(contentsOf: URL(fileURLWithPath: filePath))
+		{
+			return uuImageWithGIFData(data)
+		}
+
+		return nil
+	}
 
 	static func uuImageWithGIFData(_ data : Data) -> UIImage? {
 		var image : UIImage? = nil
