@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
 	name: "UUSwiftImage",
 	platforms: [
-		.iOS(.v10),
-		.macOS(.v10_15)
+		.iOS(.v15),
+		.macOS(.v11)
 	],
 
 	products: [
@@ -22,7 +22,7 @@ let package = Package(
 		// and from where they can be fetched:
 		.package(
 			url: "https://github.com/SilverPineSoftware/UUSwiftCore.git",
-			from: "1.3.0"
+			from: "1.4.0"
 		)
 	],
 
