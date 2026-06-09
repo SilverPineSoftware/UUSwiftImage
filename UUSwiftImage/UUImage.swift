@@ -22,7 +22,7 @@ public extension UUImage
 	// MARK: - Resizing functions
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	func uuCropToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
+    @MainActor func uuCropToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
 	{
 		var thumbnailRect : CGRect = .zero
 		thumbnailRect.origin = CGPoint(x: 0, y: 0)
@@ -32,7 +32,7 @@ public extension UUImage
 	}
 	
 	
-	func uuScaleToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
+    @MainActor func uuScaleToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
 	{
 		let imageSize = self.size
 		let width : CGFloat = imageSize.width
@@ -82,7 +82,7 @@ public extension UUImage
 		return self.uuPlatformDraw(targetSize : targetSize, thumbnailRect : thumbnailRect, scale: useScreenScale ? UUImage.uuScreenScale() : 1.0)
 	}
 	
-	func uuScaleAndCropToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
+    @MainActor func uuScaleAndCropToSize(targetSize : CGSize, useScreenScale : Bool = false) -> UUImage
 	{
 		let sourceImage = self
 		let imageSize = sourceImage.size
@@ -125,19 +125,19 @@ public extension UUImage
 	}
 	
 	
-	func uuScaleToWidth(targetWidth: CGFloat) -> UUImage
+    @MainActor func uuScaleToWidth(targetWidth: CGFloat) -> UUImage
 	{
 		let destSize = self.uuCalculateScaleToWidth(width: targetWidth)
 		return self.uuScaleToSize(targetSize: destSize)
 	}
 	
-	func uuScaleToHeight(targetHeight : CGFloat) -> UUImage
+    @MainActor func uuScaleToHeight(targetHeight : CGFloat) -> UUImage
 	{
 		let destSize = self.uuCalculateScaleToHeight(height: targetHeight)
 		return self.uuScaleToSize(targetSize: destSize)
 	}
 	
-	func uuScaleSmallestDimensionToSize(size : CGFloat) -> UUImage
+    @MainActor func uuScaleSmallestDimensionToSize(size : CGFloat) -> UUImage
 	{
 		if (self.size.width < self.size.height)
 		{
@@ -236,7 +236,7 @@ public extension UUImage
 		return self
 	}
 
-	private static func uuScreenScale() -> CGFloat
+	@MainActor private static func uuScreenScale() -> CGFloat
 	{
 		return UIScreen.main.scale
 	}
@@ -383,7 +383,7 @@ public extension UIImage {
 		return nil
 	}
 
-	static func uuSolidColorImage(color : UUColor, cornerRadius : CGFloat, borderColor : UIColor, borderWidth : CGFloat) -> UUImage?
+    @MainActor static func uuSolidColorImage(color : UUColor, cornerRadius : CGFloat, borderColor : UIColor, borderWidth : CGFloat) -> UUImage?
 	{
 		let rect = CGRect(x: 0.0, y: 0.0, width: 2.0 * ((cornerRadius * 2.0) + 1), height: 2.0 * ((cornerRadius * 2.0) + 1))
 		let view = UIView(frame: rect)
@@ -554,7 +554,7 @@ public extension UIImage {
 	}
 
 
-	static func uuViewToImage(_ view : UIView) -> UIImage?
+    @MainActor static func uuViewToImage(_ view : UIView) -> UIImage?
 	{
 		UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, UIScreen.main.scale)
 		if let outputContext = UIGraphicsGetCurrentContext()

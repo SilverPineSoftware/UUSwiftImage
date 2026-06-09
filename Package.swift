@@ -33,7 +33,7 @@ let package = Package(
 			path: "UUSwiftImage",
 			exclude: ["Info.plist"])
 	],
-	swiftLanguageVersions: [
+    swiftLanguageModes: [
 		.v4_2,
 		.v5,
         .v6
