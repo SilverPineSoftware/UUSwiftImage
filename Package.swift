@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -22,7 +22,7 @@ let package = Package(
 		// and from where they can be fetched:
 		.package(
 			url: "https://github.com/SilverPineSoftware/UUSwiftCore.git",
-			from: "1.4.0"
+			from: "develop"
 		)
 	],
 
@@ -35,6 +35,7 @@ let package = Package(
 	],
 	swiftLanguageVersions: [
 		.v4_2,
-		.v5
+		.v5,
+        .v6
 	]
 )
